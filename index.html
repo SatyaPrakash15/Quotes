@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+      integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="box">
+        <h1 onclick="tweet()" class="tweet">
+          <i class="fa-brands fa-twitter-square fa-2x"></i>
+        </h1>
+        <p class="quot"><i class="fa-solid fa-quote-left fa-4x"></i></p>
+        <div id="quotes">Click on button for the quotes</div>
+        <div id="author"></div>
+        <button onclick="ev()">New quotes</button>
+      </div>
+    </div>
+  </body>
+  <script>
+    const quotes = document.getElementById("quotes");
+    const author = document.getElementById("author");
+    let quote = "";
+    let auth = "";
+    const ev = async () => {
+      const api = "https://type.fit/api/quotes";
+      try {
+        let data = await fetch(api);
+        let orgdata = await data.json();
+        let num = Math.floor(Math.random() * 1643);
+        quote = orgdata[num].text;
+        auth = orgdata[num].author;
+        quotes.innerHTML = quote;
+        author.innerHTML =
+          auth == null ? "By unKnown" : `By ${orgdata[num].author}`;
+      } catch (error) {}
+    };
+    const tweet = () => {
+      const tweeturl = `https://twitter.com/intent/tweet?text=${quote}`;
+      window.open(tweeturl);
+    };
+  </script>
+</html>
